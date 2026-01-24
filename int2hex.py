@@ -7,22 +7,16 @@ Created on Tue Jul  7 11:09:16 2020
 """
 
 def int_to_hexa(int_code):
-    ##modified the following to the tests
-    hex_names=["0","1","2",'3','4','5','6','7','8','9','A','B','C','D','E','F']
-    output=''
-    a=17
-    b=1
-    number=int(int_code)
-    # int_code/16=a.....b
-    while a>16:
-        a=number//16
-        b=number%16
-        number=a
-        output=output+hex_names[b]
-    if not a==0:
-        output=output+hex_names[a]
-    result=output[::-1]     
-    return result
+    hex_names = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"]
+    number = int(int_code)
+    if number == 0:
+        return "0"
+    output = ""
+    while number > 0:
+        remainder = number % 16
+        output += hex_names[remainder]
+        number = number // 16
+    return output[::-1]
 
 
 
