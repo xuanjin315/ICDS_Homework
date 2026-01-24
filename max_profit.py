@@ -8,19 +8,16 @@ Created on Tue Jan 23 14:08:56 2024
 
 
 
-def max_difference(prices):
-    max_left = prices[0]
-    min_right = prices[1]
-    max_diff = max_left - min_right
+def max_profit(prices):
+    min_price = prices[0]
+    max_diff = prices[1] - prices[0]
 
     for i in range(1, len(prices)):
-        diff = max_left - prices[i]
+        diff = prices[i] - min_price
         if diff > max_diff:
             max_diff = diff
-        if prices[i] < min_right:
-            min_right = prices[i]
-        if prices[i] > max_left:
-            max_left = prices[i]
+        if prices[i] < min_price:
+            min_price = prices[i]
 
     return max_diff
             
