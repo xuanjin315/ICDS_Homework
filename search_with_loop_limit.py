@@ -22,6 +22,8 @@ def search_with_loop_limit(sorted_lst, n):
             left = mid + 1
         else:
             right = mid - 1
+        if left>=right:
+            break
 
     return (False, loops)
         
