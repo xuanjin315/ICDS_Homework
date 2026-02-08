@@ -1,0 +1,7 @@
+name,age,height_cm,weight_kg
+Alice,19,165,58
+Bob,twenty,180,75
+Cara,21,170,not_a_number
+Dan,22,172,62
+Jack,23,165,55
+Eve,20,0,50

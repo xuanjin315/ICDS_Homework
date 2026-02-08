@@ -1,0 +1,6 @@
+name=Alice|BMI:21.3
+name=Bob|BMI:23.1
+name=Cara|ERROR:could not convert string to float: 'not_a_number'
+name=Dan|BMI:21.0
+name=Jack|BMI:20.2
+name=Eve|ERROR:height_cm must be > 0
