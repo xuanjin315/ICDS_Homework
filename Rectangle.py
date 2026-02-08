@@ -45,7 +45,7 @@ class Rectangle:
         # TODO: update self.width and self.height
         if not isinstance(k, (int,float)):
             raise TypeError("k must be a number")
-        if k<0:
+        if k<=0:
             raise ValueError("k must be>0")
         self.height=k*self.height
         self.width=k*self.width
