@@ -43,7 +43,7 @@ class Rectangle:
         k : int or float (must be > 0)
         """
         # TODO: update self.width and self.height
-        if not isinstance(k, int):
+        if not isinstance(k, (int,float)):
             raise TypeError("k must be a number")
         if k<0:
             raise ValueError("k must be>0")
@@ -63,7 +63,7 @@ class Rectangle:
         # TODO: return a new Rectangle instance
         if not isinstance(k, (int,float)):
             raise TypeError("k must be a number")
-        if k<0:
+        if k<=0:
             raise ValueError("k must be>0")
         
         new_width=k*self.width
@@ -91,7 +91,7 @@ class Rectangle:
         e.g., 'Rectangle(w=3, h=4, area=12)'
         """
         # TODO
-        return f"w={self.width}, h={self.height}, area={self.area()}"
+        return f"Rectangle(w={self.width}, h={self.height}, area={self.area()})"
 
     __repr__ = __str__
 
