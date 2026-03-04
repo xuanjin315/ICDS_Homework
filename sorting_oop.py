@@ -41,7 +41,7 @@ class InsertionSorter(Sorter):
         - Implement insertion sort on 'a' WITHOUT using sorted()/list.sort()
         - Return 'a' (a NEW list)
         """
-        a=self._data
+        a=list(self._data)
 
         for i in range (1, len(a)):
             v=a[i]
@@ -49,7 +49,7 @@ class InsertionSorter(Sorter):
             while j>=0 and a[j]>v:
                 a[j+1]=a[j]
                 j-=1
-                a[j+1]=v
+            a[j+1]=v
         return a
 
 
@@ -70,14 +70,14 @@ class ShellSorter(Sorter):
           (do NOT use sorted()/list.sort() here)
         - Return 'a'
         """
-        a=self._data
+        a=list(self._data)
         def insertion_sort_with_gap(lst, gaps):
             for g in gaps:
                 for i in range(1,len(lst)):
                     v=lst[i]
                     j=i-g
                     while j>=0 and lst[j]>v:
-                        st[j+g]=lst[j]
+                        lst[j+g]=lst[j]
                         j=j-g
                     lst[j+g]=v
                 return lst
@@ -100,7 +100,7 @@ class SelectionSorter(Sorter):
         - Implement selection sort on 'a' WITHOUT using sorted()/list.sort()
         - Return 'a'
         """
-        a=self._data
+        a=list(self._data)
         for i in range(len(a)):
             min_j=i
             memo=a[i]
@@ -175,7 +175,7 @@ class BucketSorter(Sorter):
         - Collect: create result list, extend with each bucket's sorted() result
         - Return the result list (NEW list)
         """
-        a=self._data
+        a=list(self._data)
         self._build_buckets()
         for i in a:
             for b in self._buckets:
