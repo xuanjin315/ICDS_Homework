@@ -5,7 +5,7 @@ def bucket_sort(mylist):
     # initialize the buckets
     if not mylist:
         return[]
-    mydict = {str[i]:[] for i in range(10)}
+    mydict = {str(i):[] for i in range(10)}
     for i in mylist:
         number=i//10
         if not str(number) in mydict:
