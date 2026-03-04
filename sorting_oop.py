@@ -73,14 +73,14 @@ class ShellSorter(Sorter):
         a=list(self._data)
         def insertion_sort_with_gap(lst, gaps):
             for g in gaps:
-                for i in range(1,len(lst)):
+                for i in range(g,len(lst)):
                     v=lst[i]
                     j=i-g
                     while j>=0 and lst[j]>v:
                         lst[j+g]=lst[j]
                         j=j-g
                     lst[j+g]=v
-                return lst
+            return lst
         a=insertion_sort_with_gap(a,self._gaps)
         return a       
         
@@ -103,12 +103,10 @@ class SelectionSorter(Sorter):
         a=list(self._data)
         for i in range(len(a)):
             min_j=i
-            memo=a[i]
             for j in range(i,len(a)):
                 if a[j]<a[min_j]:
                     min_j=j
-            a[i]=a[min_j]
-            a[min_j]=memo
+            a[i], a[min_j] = a[min_j], a[i]
         return a
 
 
@@ -164,7 +162,7 @@ class BucketSorter(Sorter):
         # TODO: create Bucket(idx, low, high) and store in self._buckets
         for i in range(0,100,10):
             
-            self._buckets.append(Bucket(i//10,i,i+10))
+            self._buckets.append(Bucket(i//10,i,i+9))
 
     def sort(self):
         """
@@ -203,7 +201,7 @@ def run_all(sorters, lst):
     # TODO: implement per description above
     dic={}
     for i in sorters:
-        i._data=lst
+        i._data=list(lst)
         if i.name not in dic:
             dic[i.name]=[]
         dic[i.name]=i.sort()
