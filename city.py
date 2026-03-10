@@ -1,11 +1,8 @@
 import numpy as np
 
 def city_mean(temps):
-    output=[]
-    for i in range(len(temps)):
-        mean=[np.mean(temps[i])]
-    output.append(mean)
-    return output
+    # axis=1 计算每行的平均值，返回形状为 (4,) 的一维数组
+    return np.mean(temps, axis=1)
 
 def day_mean(temps):
     # TODO: mean per column (axis=0)
@@ -22,10 +19,10 @@ def apply_offset(temps, offset):
     return output
 
 def deviation_matrix(temps):
-    # TODO: subtract each city’s mean from its row
-    a=temps
-    processed=city_mean(temps)
-    output=a-processed
+    a = temps
+    # 把 (4,) 变成 (4, 1)，让它能顺着列的方向广播
+    processed = city_mean(temps).reshape(-1, 1) 
+    output = a - processed
     return output
     
 
