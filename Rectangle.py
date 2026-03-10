@@ -1,113 +1,76 @@
-# Task: Implement a Rectangle class with area, perimeter, scaling,
-# equality check, and string representation.
-# Do NOT change class name or method names.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Mar 11 00:52:11 2020
 
-class Rectangle:
-    def __init__(self, width, height):
-        """
-        Initialize a rectangle with width and height.
+@author: xg7
+"""
 
-        Parameters
-        ----------
-        width : int or float (must be > 0)
-        height : int or float (must be > 0)
-        """
-        # TODO: validate inputs (numbers > 0)
-        # TODO: assign to self.width and self.height
-        if not isinstance(width, (int, float)) or not isinstance(height, (int, float)):
-            raise TypeError("width and height must be numbers")
-
-        if width <= 0 or height <= 0:
-            raise ValueError("width and height must be > 0")
-        self.width=width
-        self.height=height
-        
-    def area(self):
-        """Return the area of the rectangle."""
-        # TODO
-        output=self.width*self.height
-        return output
-
-    def perimeter(self):
-        """Return the perimeter of the rectangle."""
-        # TODO
-        output=2*(self.width+self.height)
-        return output
-
-    def scale(self, k):
-        """
-        Scale the rectangle in place by factor k.
-
-        Parameters
-        ----------
-        k : int or float (must be > 0)
-        """
-        # TODO: update self.width and self.height
-        if not isinstance(k, (int,float)):
-            raise TypeError("k must be a number")
-        if k<=0:
-            raise ValueError("k must be>0")
-        self.height=k*self.height
-        self.width=k*self.width
-       
-
-    def scaled(self, k):
-        """
-        Return a NEW Rectangle scaled by factor k.
-        Must not modify the original object.
-
-        Parameters
-        ----------
-        k : int or float (must be > 0)
-        """
-        # TODO: return a new Rectangle instance
-        if not isinstance(k, (int,float)):
-            raise TypeError("k must be a number")
-        if k<=0:
-            raise ValueError("k must be>0")
-        
-        new_width=k*self.width
-        new_height=k*self.height
-        return Rectangle(new_width,new_height)
-    
-    def __eq__(self, other):
-        """
-        Compare two rectangles for equality.
-
-        Returns True if width and height are equal
-        within a small tolerance.
-        """
-        # TODO
-        if not isinstance(other, Rectangle):
-            return False
-        return (abs(self.width-other.width)<1e-9 and abs(self.height-other.height)<1e-9)
-    
-            
-            
-
-    def __str__(self):
-        """
-        Return a string representation of the rectangle,
-        e.g., 'Rectangle(w=3, h=4, area=12)'
-        """
-        # TODO
-        return f"Rectangle(w={self.width}, h={self.height}, area={self.area()})"
-
-    __repr__ = __str__
+from point import Point
+mat = True
+try:
+    import matplotlib.pyplot as plt
+except Exception as err:
+    mat = False
+    print(err)
 
 
+class Polygon:
+    """
+    A polygon class with a list of points
+    """
+
+    def __init__(self):
+        self.points = []
+
+    def add_point(self, x, y):
+        self.points.append(Point(x, y))
+
+    def get_point(self, index):
+        # check that the index is valid
+        if 0 < index < len(self.points):
+            return self.points[index-1]
+        else:
+            return
+
+    def plot(self):
+        x = []
+        y = []
+        for i in range(len(self.points)):
+            x.append(self.points[i].x)
+            y.append(self.points[i].y)
+        x.append(self.points[0].x)
+        y.append(self.points[0].y)
+        if mat:
+            plt.plot(x, y)
+            plt.show()
+
+    def insert_point_at(self, x, y, index):
+        self.points.insert(index, Point(x, y))
+
+
+class Rectangle(Polygon):
+    """
+    A rectangle class with a point as a left lower corner
+    """
+    # complete the Rectangle to pass the test
+
+    def __init__(self, w, h, p):
+        self.points=[]
+        self.points.append(p)
+        self.points.append(Point(p.x+w,p.y))
+        self.points.append(Point(p.x+w,p.y+h))
+        self.points.append(Point(p.x,p.y+h))
+
+
+# test
 if __name__ == "__main__":
-    # Sample usage (for testing after you implement the methods)
-    r1 = Rectangle(3, 4)
-    print(r1.area())        # Expected: 12
-    print(r1.perimeter())   # Expected: 14
-    print(r1)               # Expected: Rectangle(w=3, h=4, area=12)
+    p1 = Polygon()
+    p1.add_point(0, 0)
+    p1.add_point(0, 3)
+    p1.add_point(4, 0)
+    #p1.add_point(4, 3)
+    p1.plot()
 
-    r2 = r1.scaled(0.5)
-    print(r1)               # r1 should stay Rectangle(w=3, h=4, area=12)
-    print(r2)               # r2 should be Rectangle(w=1.5, h=2.0, area=3.0)
-
-    r1.scale(2)
-    print(r1)               # Now r1 should be Rectangle(w=6, h=8, area=48)
-
-    print(r2 == Rectangle(1.5, 2.0))  # Expected: True
+    rect = Rectangle(5, 5, Point(0, 0))
+    rect.plot()
