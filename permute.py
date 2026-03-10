@@ -14,12 +14,7 @@ def permute(nums):
         output.append(to_be_processed)
         return output
     
-    if len(to_be_processed)==2:
-        output=[]
-        output.append(to_be_processed)
-        to_be_processed[0],to_be_processed[1]=to_be_processed[1],to_be_processed[0]
-        output.append(to_be_processed)
-        return output
+
     output_big=[]
     for i in range(len(to_be_processed)):
         chosen=to_be_processed[i]

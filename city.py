@@ -9,14 +9,7 @@ def city_mean(temps):
 
 def day_mean(temps):
     # TODO: mean per column (axis=0)
-    temp_by_day=[]
-    output=[]
-    for i in range(len(temps)):
-        storage=temps[i]
-        for d in range (7):
-            temp_by_day.append(storage[d])
-        mean=np.mean(temp_by_day)
-    return mean
+    return np.mean(temps,axis=0)
             
             
             
