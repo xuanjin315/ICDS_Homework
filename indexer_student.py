@@ -44,7 +44,7 @@ class Index:
         """
         # IMPLEMENTATION
         # ---- start your code ---- #
-        self.msgs.appned(m)
+        self.msgs.append(m)
         self.total_msgs += 1
 
         # ---- end of your code --- #
