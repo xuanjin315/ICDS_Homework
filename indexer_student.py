@@ -106,17 +106,12 @@ class PIndex(Index):
         self.load_poems()
 
     def load_poems(self):
-        """
-        open the file for read, then call
-        the base class's add_msg_and_index()
-        """
-        # IMPLEMENTATION
-        # ---- start your code ---- #
-        poems=open(self.name,"r")
-        self.add_msg_and_index(poems)
-
-        # ---- end of your code --- #
-        return
+            # ---- start your code ---- #
+            with open(self.name, "r") as poems:
+                for line in poems:
+                    self.add_msg_and_index(line)
+            # ---- end of your code --- #
+            return
 
     def get_poem(self, p):
      
@@ -152,10 +147,10 @@ class PIndex(Index):
         search_results=self.search(start)
         if not search_results:
             return poem
-        start_line=search_results[0][0]
+        start=search_results[0][0]
         
         next_p=p+1
-        end_line=self.total_msgs
+        end=self.total_msgs
         
         if next_p in self.int2roman:
             next_term=self.int2roman[next_p]+"."
