@@ -68,7 +68,7 @@ class Group:
         # IMPLEMENTATION
         # ---- start your code ---- #
         for k,v in self.chat_grps.items():
-            if v==name:
+            if v in name:
                 found=True
                 group_key=k
 
