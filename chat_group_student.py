@@ -1,5 +1,3 @@
-
-
 # ==============================================================================
 # Group class:
 # member fields:
@@ -29,14 +27,9 @@ class Group:
         return
 
     def is_member(self, name):
-
         # IMPLEMENTATION
         # ---- start your code ---- #
-        for i in self.members:
-            if name==i:
-                return True
-
-        return False
+        return name in self.members
         # ---- end of your code --- #
 
     # implement
@@ -48,10 +41,17 @@ class Group:
         # ---- start your code ---- #
         if name in self.members:
             del self.members[name]
-        for k,v in self.chat_grps.items():
-            if name==v:
-                self.chat_grps[k].remove(name)
             
+        for k, v in list(self.chat_grps.items()):
+            if name in v:
+                v.remove(name)
+                # If only one person is left, they are alone now
+                if len(v) == 1:
+                    self.members[v[0]] = S_ALONE
+                    del self.chat_grps[k]
+                # If group is empty, clean it up
+                elif len(v) == 0:
+                    del self.chat_grps[k]
         return
         # ---- end of your code --- #
 
@@ -62,16 +62,15 @@ class Group:
         variables: whether "name" is in a group, and if true
         the key to its group
         """
-
         found = False
         group_key = 0
         # IMPLEMENTATION
         # ---- start your code ---- #
-        for k,v in self.chat_grps.items():
-            if name in v:
-                found=True
-                group_key=k
-
+        for k, v in self.chat_grps.items():
+            if name in v:  # FIXED: name in list, not list in string
+                found = True
+                group_key = k
+                break
         # ---- end of your code --- #
         return found, group_key
 
@@ -82,16 +81,19 @@ class Group:
         otherwise, create a new group with you and your peer
         """
         peer_in_group, group_key = self.find_group(peer)
+        
+        # IMPLEMENTATION
+        # ---- start your code ---- #
         if peer_in_group:
             self.chat_grps[group_key].append(me)
         else:
-            new_key=len(self.chat_grps)
-            self.chat_grps[new_key]=[me,peer]
-
-        # IMPLEMENTATION
-        # ---- start your code ---- #
-
-
+            self.grp_ever += 1 # Use the class counter for unique keys
+            new_key = self.grp_ever
+            self.chat_grps[new_key] = [me, peer]
+            
+        # Update states to talking
+        self.members[me] = S_TALKING
+        self.members[peer] = S_TALKING
         # ---- end of your code --- #
         return
 
@@ -102,10 +104,19 @@ class Group:
         """
         # IMPLEMENTATION
         # ---- start your code ---- #
-        
-        for k,v in self.chat_grps.items():
-                if me==v:
-                    self.chat_grps[k].remove(me)
+        for k, v in list(self.chat_grps.items()):
+            if me in v:
+                v.remove(me)
+                # If only one person left in group, disband it and set them to alone
+                if len(v) == 1:
+                    self.members[v[0]] = S_ALONE
+                    del self.chat_grps[k]
+                elif len(v) == 0:
+                    del self.chat_grps[k]
+                    
+        # Update my state to alone
+        if me in self.members:
+            self.members[me] = S_ALONE
         # ---- end of your code --- #
         return
 
@@ -126,9 +137,11 @@ class Group:
         # IMPLEMENTATION
         # ---- start your code ---- #
         peer_in_group, group_key = self.find_group(me)
-        my_list.append(self.chat_grps[group_key])
-        
-
+        if peer_in_group:
+            my_list.append(me)
+            for peer in self.chat_grps[group_key]:
+                if peer != me:
+                    my_list.append(peer)
         # ---- end of your code --- #
         return my_list
 
@@ -139,13 +152,21 @@ if __name__ == "__main__":
     g.join('b')
     g.join('c')
     g.join('d')
+    print("--- Joined ---")
     print(g.list_all())
 
     g.connect('a', 'b')
+    print("--- a connects to b ---")
     print(g.list_all())
+    
     g.connect('c', 'a')
+    print("--- c connects to a ---")
     print(g.list_all())
+    
     g.leave('c')
+    print("--- c leaves ---")
     print(g.list_all())
+    
     g.disconnect('b')
+    print("--- b disconnects ---")
     print(g.list_all())
